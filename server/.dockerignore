@@ -1,0 +1,11 @@
+# Ignore the vendor directory
+vendor/
+# Ignore local configuration files
+*.env
+*.local
+# Ignore test files
+*_test.go
+# Ignore log files
+*.log
+# Ignore version control files
+.git

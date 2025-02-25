@@ -1,0 +1,10 @@
+# Ignore the node_modules directory
+node_modules/
+# Ignore previous build output
+out/
+# Ignore local configuration files
+*.env
+# Ignore log files
+*.log
+# Ignore version control files
+.git
