@@ -37,4 +37,4 @@ By running a simulated architecture, **Archium generates reports and insights** 
 
 ## 📜 License
 
-Archium is licensed under the **MIT License**.
+Archium is licensed under the **AGPL-3.0 License**.
