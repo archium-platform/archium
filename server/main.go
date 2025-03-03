@@ -1,42 +1,46 @@
 package main
 
 import (
+	"encoding/json"
+	"log"
+	"net/http"
 	"runtime"
 
-	"github.com/gin-gonic/gin"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/magomzr/archium/models"
 )
 
-func bToMb(b uint64) uint64 {
-	return b / 1024 / 1024
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(models.Response{
+		Message: "hello world",
+	})
 }
 
-func GetMemoryUsage() map[string]any {
-	var m runtime.MemStats
-	runtime.ReadMemStats(&m)
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	var memStats runtime.MemStats
+	runtime.ReadMemStats(&memStats)
 
-	alloc := bToMb(m.Alloc)
-	totalAlloc := bToMb(m.TotalAlloc)
-	sys := bToMb(m.Sys)
-	numGC := bToMb(uint64(m.NumGC))
-
-	return map[string]any{
-		"alloc":      alloc,
-		"totalAlloc": totalAlloc,
-		"sys":        sys,
-		"numGC":      numGC,
+	response := models.HealthResponse{
+		Status:           "ok",
+		MemoryAlloc:      memStats.Alloc,
+		TotalMemoryAlloc: memStats.TotalAlloc,
+		MemorySys:        memStats.Sys,
+		NumGoroutine:     runtime.NumGoroutine(),
 	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
 }
 
 func main() {
-	r := gin.Default()
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Get("/", helloHandler)
+	r.Get("/health", healthHandler)
 
-	r.GET("/health", func(ctx *gin.Context) {
-		memStats := GetMemoryUsage()
-		ctx.IndentedJSON(200, gin.H{
-			"status": "ok",
-			"mem":    memStats,
-		})
-	})
-
-	r.Run()
+	port := ":8080"
+	log.Println("Server running on http://localhost" + port)
+	log.Fatal(http.ListenAndServe(port, r))
 }
