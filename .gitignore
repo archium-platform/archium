@@ -1,3 +1,6 @@
+# Global files
+.DS_Store
+
 # Golang files
 
 # If you prefer the allow list template instead of the deny list, see community template:
