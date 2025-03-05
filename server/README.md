@@ -1,6 +1,6 @@
 # Archium - Server
 
-In order to understand how the Archium platform works, we need to define some key concepts first.
+In order to understand how the Archium platform works on behind, we need to define some key concepts before.
 
 ### Diagram
 
@@ -33,7 +33,7 @@ Each service instance is independent, with its own properties like latency, fail
 
 The Engine acts as an orchestrator, collecting events from services and sending aggregated data to the frontend.
 
-Services communicate with the Engine via channels instead of directly sending updates to the frontend.
+Services communicate with the Engine via a global metrics channel, reducing memory overhead and making WebSocket integration straightforward.
 
 WebSockets (or another streaming method) are handled by the Engine, ensuring controlled and batched updates to the frontend.
 
@@ -41,8 +41,8 @@ Each service runs as a separate Goroutine, making everything concurrent and high
 
 ## Implementation plan
 
-1. Each service runs as a Goroutine and sends metrics to a channel.
-2. The Engine listens to these channels and aggregates data.
+1. Each service runs as a Goroutine and sends metrics to a global metrics channel.
+2. The Engine listens to this single channel, collects the data, and batches it.
 3. Every X milliseconds, the Engine sends a batch update to the frontend via WebSocket.
 
 ## Benefits
@@ -51,6 +51,6 @@ Each service runs as a separate Goroutine, making everything concurrent and high
 
 - **Decoupled**. Services don't know about each other, only the Engine.
 
-- **Efficient communication**. Using channels to avoid unnecessary locks.
+- **Efficient communication**. Using a single global channel avoids unnecessary complexity.
 
 - **Optimized**. Engine batches and sends controlled updates.
