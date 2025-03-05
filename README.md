@@ -1,6 +1,11 @@
-# Archium
+<h1 align="center">Archium</h1>
+<p align="center">
+A real-time software architecture simulation tool
+</p>
 
-_A real-time software architecture simulation tool_
+<p align="center">
+  <img width="200px" src="docs/logo.png" />
+</p>
 
 ## 🚀 About
 
