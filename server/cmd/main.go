@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/magomzr/archium/api"
+	"github.com/archium-platform/archium/api"
 )
 
 func main() {

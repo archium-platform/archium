@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/magomzr/archium/models"
+	"github.com/archium-platform/archium/models"
 )
 
 func NewWorker(workerDef map[string]any) (models.Worker, error) {

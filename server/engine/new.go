@@ -1,6 +1,6 @@
 package engine
 
-import "github.com/magomzr/archium/models"
+import "github.com/archium-platform/archium/models"
 
 func NewEngine() *models.Engine {
 	return &models.Engine{

@@ -1,4 +1,4 @@
-module github.com/magomzr/archium
+module github.com/archium-platform/archium
 
 go 1.24.0
 

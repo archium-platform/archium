@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"runtime"
 
-	"github.com/magomzr/archium/models"
+	"github.com/archium-platform/archium/models"
 )
 
 func Health(w http.ResponseWriter, r *http.Request) {

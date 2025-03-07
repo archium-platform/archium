@@ -4,7 +4,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/magomzr/archium/models"
+	"github.com/archium-platform/archium/models"
+	colors "github.com/archium-platform/archium/utils"
 )
 
 type DatabaseWorker struct {
@@ -20,10 +21,21 @@ func (w *DatabaseWorker) Start(done chan struct{}) {
 	for {
 		select {
 		case <-done:
-			log.Printf("Database Worker %s stopped", w.WorkerId)
+			log.Printf("%s[DB]\t%sID %s%s\t%sstopped%s",
+				colors.Blue,
+				colors.Blue, colors.Yellow, w.WorkerId,
+				colors.Red,
+				colors.Reset)
 			return
 		case <-ticker.C:
-			log.Printf("Database Worker %s running", w.WorkerId)
+			w.QueryTime += 25
+			w.Size += 1024
+			log.Printf("%s[DB]\t%sID %s%s\t%sQuery: %.2f ms\t%sSize: %.2f MB%s",
+				colors.Blue,
+				colors.Blue, colors.Yellow, w.WorkerId,
+				colors.Green, w.QueryTime,
+				colors.Cyan, w.Size,
+				colors.Reset)
 		}
 	}
 }

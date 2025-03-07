@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/magomzr/archium/engine"
-	"github.com/magomzr/archium/models"
-	"github.com/magomzr/archium/workers"
+	"github.com/archium-platform/archium/engine"
+	"github.com/archium-platform/archium/models"
+	"github.com/archium-platform/archium/workers"
 )
 
 func Simulate(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +17,7 @@ func Simulate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	simManager := engine.GetSimulationManagerInstance()
+	simManager := engine.GetLifecycleManagerInstance()
 	if simManager.IsRunning() {
 		http.Error(w, "simulation already running", http.StatusBadRequest)
 		return
@@ -44,7 +44,7 @@ func Simulate(w http.ResponseWriter, r *http.Request) {
 }
 
 func StopSimulation(w http.ResponseWriter, r *http.Request) {
-	simManager := engine.GetSimulationManagerInstance()
+	simManager := engine.GetLifecycleManagerInstance()
 
 	if err := simManager.Stop(); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)

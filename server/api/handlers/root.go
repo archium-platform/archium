@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/magomzr/archium/models"
+	"github.com/archium-platform/archium/models"
 )
 
 func Root(w http.ResponseWriter, r *http.Request) {
