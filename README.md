@@ -1,10 +1,8 @@
-<h1 align="center">Archium</h1>
-<p align="center">
-A real-time software architecture simulation tool
-</p>
-
 <p align="center">
   <img width="200px" src="docs/logo.png" />
+</p>
+<p align="center">
+A real-time software architecture simulation tool
 </p>
 
 ## 🚀 About

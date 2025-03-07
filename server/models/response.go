@@ -1,5 +1,5 @@
 package models
 
-type Response struct {
+type Root struct {
 	Message string `json:"message"`
 }

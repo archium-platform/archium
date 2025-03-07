@@ -14,9 +14,9 @@ func SetupRoutes() *chi.Mux {
 	r.Use(middleware.Logger)
 
 	// Routes
-	r.Get("/", handlers.HelloHandler)
-	r.Get("/health", handlers.HealthHandler)
-	r.Post("/run", handlers.RunHandler)
+	r.Get("/", handlers.Root)
+	r.Get("/health", handlers.Health)
+	r.Post("/simulate", handlers.Simulate)
 
 	return r
 }

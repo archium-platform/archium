@@ -8,11 +8,11 @@ import (
 	"github.com/magomzr/archium/models"
 )
 
-func HealthHandler(w http.ResponseWriter, r *http.Request) {
+func Health(w http.ResponseWriter, r *http.Request) {
 	var memStats runtime.MemStats
 	runtime.ReadMemStats(&memStats)
 
-	response := models.HealthResponse{
+	response := models.Health{
 		Status:           "ok",
 		MemoryAlloc:      memStats.Alloc,
 		TotalMemoryAlloc: memStats.TotalAlloc,
