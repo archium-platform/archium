@@ -26,7 +26,7 @@ func NewWorker(workerDef map[string]any) (models.Worker, error) {
 			return nil, err
 		}
 
-		return &models.HTTPWorker{
+		return &HTTPWorker{
 			WorkerBase: models.WorkerBase{
 				WorkerId: workerId.(string),
 				Type:     workerType,
@@ -49,7 +49,7 @@ func NewWorker(workerDef map[string]any) (models.Worker, error) {
 			return nil, err
 		}
 
-		return &models.DatabaseWorker{
+		return &DatabaseWorker{
 			WorkerBase: models.WorkerBase{
 				WorkerId: workerId.(string),
 				Type:     workerType,

@@ -7,19 +7,20 @@ import (
 	"github.com/magomzr/archium/models"
 )
 
-type HTTPWorker struct {
+type DatabaseWorker struct {
 	models.WorkerBase
-	Latency float64 `json:"latency"`
+	QueryTime float64 `json:"queryTime"`
+	Size      float64 `json:"size"`
 }
 
-func (w *HTTPWorker) Start() {
+func (w *DatabaseWorker) Start() {
 	ticker := time.NewTicker(2 * time.Second)
 	defer ticker.Stop()
 
 	for {
 		select {
 		case <-ticker.C:
-			log.Printf("HTTP Worker %s running", w.WorkerId)
+			log.Printf("Database Worker %s running", w.WorkerId)
 		}
 	}
 }
