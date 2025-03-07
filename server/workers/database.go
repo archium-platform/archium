@@ -13,12 +13,15 @@ type DatabaseWorker struct {
 	Size      float64 `json:"size"`
 }
 
-func (w *DatabaseWorker) Start() {
+func (w *DatabaseWorker) Start(done chan struct{}) {
 	ticker := time.NewTicker(2 * time.Second)
 	defer ticker.Stop()
 
 	for {
 		select {
+		case <-done:
+			log.Printf("Database Worker %s stopped", w.WorkerId)
+			return
 		case <-ticker.C:
 			log.Printf("Database Worker %s running", w.WorkerId)
 		}

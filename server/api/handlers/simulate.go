@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/magomzr/archium/engine"
 	"github.com/magomzr/archium/models"
 	"github.com/magomzr/archium/workers"
 )
@@ -13,11 +14,16 @@ func Simulate(w http.ResponseWriter, r *http.Request) {
 
 	if err := json.NewDecoder(r.Body).Decode(&run); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
-	e := &models.Engine{
-		Metrics: make(chan models.Metrics, 100),
+	simManager := engine.GetSimulationManagerInstance()
+	if simManager.IsRunning() {
+		http.Error(w, "simulation already running", http.StatusBadRequest)
+		return
 	}
+
+	var workersList []models.Worker
 
 	for _, s := range run.Services {
 		worker, err := workers.NewWorker(s)
@@ -25,15 +31,26 @@ func Simulate(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		e.Workers = append(e.Workers, worker)
+		workersList = append(workersList, worker)
+	}
+
+	if err := simManager.Start(workersList); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]bool{"started": true})
+}
 
-	go func() {
-		for _, worker := range e.Workers {
-			go worker.Start()
-		}
-	}()
+func StopSimulation(w http.ResponseWriter, r *http.Request) {
+	simManager := engine.GetSimulationManagerInstance()
+
+	if err := simManager.Stop(); err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]bool{"stopped": true})
 }

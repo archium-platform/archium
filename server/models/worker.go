@@ -1,7 +1,7 @@
 package models
 
 type Worker interface {
-	Start()
+	Start(done chan struct{})
 	GetId() string
 	GetType() string
 }
