@@ -11,9 +11,11 @@ import (
 type HTTPWorker struct {
 	models.WorkerBase
 	Latency float64 `json:"latency"`
+	// Send-only channel for metrics.
+	Metrics chan<- models.Metrics
 }
 
-func (w *HTTPWorker) Start(done chan struct{}) {
+func (w *HTTPWorker) Start(done chan struct{}, metrics chan<- models.Metrics) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
@@ -28,6 +30,13 @@ func (w *HTTPWorker) Start(done chan struct{}) {
 			return
 		case <-ticker.C:
 			w.Latency += 10
+
+			metrics <- models.Metrics{
+				WorkerId: w.WorkerId,
+				Type:     "HTTP",
+				Latency:  w.Latency,
+			}
+
 			log.Printf("%s[HTTP]\t%sID %s%s\t%sLatency: %.2f ms%s",
 				colors.Purple,
 				colors.Blue, colors.Yellow, w.WorkerId,

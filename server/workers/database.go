@@ -14,7 +14,7 @@ type DatabaseWorker struct {
 	Size      float64 `json:"size"`
 }
 
-func (w *DatabaseWorker) Start(done chan struct{}) {
+func (w *DatabaseWorker) Start(done chan struct{}, metrics chan<- models.Metrics) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
@@ -30,6 +30,14 @@ func (w *DatabaseWorker) Start(done chan struct{}) {
 		case <-ticker.C:
 			w.QueryTime += 25
 			w.Size += 1024
+
+			metrics <- models.Metrics{
+				WorkerId:  w.WorkerId,
+				Type:      "DB",
+				QueryTime: w.QueryTime,
+				Size:      w.Size,
+			}
+
 			log.Printf("%s[DB]\t%sID %s%s\t%sQuery: %.2f ms\t%sSize: %.2f MB%s",
 				colors.Blue,
 				colors.Blue, colors.Yellow, w.WorkerId,
