@@ -9,7 +9,6 @@ type Worker interface {
 type WorkerBase struct {
 	WorkerId string `json:"workerId"`
 	Type     string `json:"type"`
-	// Properties any    `json:"properties"`
 }
 
 // Base methods
