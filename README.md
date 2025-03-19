@@ -7,17 +7,20 @@ A real-time software architecture simulation tool
 
 ## 🚀 About
 
-When designing software architectures, I often find myself doing a lot of **mental work** for "what-if" scenarios. While tools like Terraform offer execution plans, they can be expensive and require additional effort just to simulate some outcomes.
+When designing software architectures, I often find myself analyzing "what-if" scenarios. While tools like Terraform offer execution plans, they can be expensive and require additional effort just to simulate potential outcomes.
 
-**Archium** is a **real-time, mathematical model-driven simulation tool** for software architectures. Instead of executing real requests, it estimates service behavior based on provided parameters, such as:
+Archium is a **real-time simulation tool** for software architectures, driven by mathematical models instead of real execution. It allows you to explore how an architecture responds to changes before making actual infrastructure modifications.
 
-- **Cost per service**
-- **Database size and row count**
-- **Expected latency and failure rates**
-- **Load balancer performance**
-- **Real-time throughput and availability**
+### Key Features
+🔹 **Instant Insights**: Running a diagram immediately provides:
+- Estimated monthly cost per service
+- Total monthly requests and workload distribution
+- Database size and row count estimations
 
-By running a simulated architecture, **Archium generates reports and insights** into system performance **without requiring actual infrastructure changes**.
+🔹 **Real-Time Interactions**:
+- Service shutdown simulation: See how the system behaves when turning off a service
+- Live configuration changes: Adjust service properties on the fly and analyze their impact
+- What-if scenarios: Modify resources, latency, failure rates, and other parameters to observe their effects dynamically
 
 ---
 
